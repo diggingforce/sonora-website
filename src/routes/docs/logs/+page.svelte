@@ -31,7 +31,9 @@
 </table>
 <p>
 	The log is capped at 16 MB. When it fills up it becomes <code>sonora.log.1</code> and a fresh file starts,
-	so you never have more than 32 MB of logs. The startup message names the version that wrote it.
+	so you never have more than 32 MB of logs. Sonora also keeps only the last five runs, the current one
+	included, so grab the log soon after something goes wrong. Every run begins with a line naming the version
+	that wrote it.
 </p>
 
 <h2 id="verbose">More detail</h2>

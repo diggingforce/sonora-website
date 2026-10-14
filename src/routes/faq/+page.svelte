@@ -89,9 +89,15 @@
 
 				<Question id="linux-no-sound" question="Why is there no sound on Linux?">
 					<p>
-						Sonora plays through ALSA. If it says <strong>no audio output device</strong>, you're
-						missing the ALSA bridge to your sound server. Install <code>pipewire-alsa</code> on
-						PipeWire or <code>pulseaudio-alsa</code> on PulseAudio. The AppImage doesn't bundle it either.
+						Sonora plays through ALSA. If it says <strong
+							>Sonora cannot reach your sound server</strong
+						>, you're missing the ALSA bridge to your sound server. Install
+						<code>pipewire-alsa</code> on PipeWire or <code>pulseaudio-alsa</code> on PulseAudio, then
+						restart Sonora. The AppImage doesn't bundle it either.
+					</p>
+					<p>
+						<strong>No sound output</strong> means the bridge is there but your audio device didn't open.
+						Check that it's connected and that no other app holds it.
 					</p>
 				</Question>
 			</div>
@@ -114,8 +120,8 @@
 				<Question id="sign-in-window" question="Why doesn't the sign-in window open on Linux?">
 					<p>
 						The login windows for YouTube Music, Apple Music and Deezer need WebKitGTK, either
-						<code>webkit2gtk-4.1</code> or <code>4.0</code>. Without it Sonora says
-						<strong>webkit2gtk is not installed</strong> and offers cookie pasting instead. That works
+						<code>webkit2gtk-4.1</code> or <code>4.0</code>. Without it Sonora shows
+						<strong>Browser sign-in is unavailable</strong> and offers cookie pasting instead. That works
 						just as well.
 					</p>
 				</Question>

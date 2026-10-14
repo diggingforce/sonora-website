@@ -62,7 +62,12 @@
 	> after you add music.
 </p>
 <ul>
-	<li>MP3, FLAC, M4A, MP4, AAC, OGG, Opus, WAV, WavPack, APE, WebM and MKA are supported.</li>
+	<li>MP3, FLAC, M4A, MP4, AAC, OGG, Opus, WAV, AIFF, WavPack, APE, WebM and MKA are supported.</li>
+	<li>
+		A track with several artist tags shows each artist separately. Sonora never splits a single tag
+		on commas, ampersands or "feat.", and artist names that differ only in capitalization count as
+		one artist.
+	</li>
 	<li>
 		Covers are loaded from the embedded art, or from <code>cover.*</code> or <code>folder.*</code>
 		in the same folder. Use JPG, JPEG, PNG or WebP. Artist pictures come from a scanned folder whose name

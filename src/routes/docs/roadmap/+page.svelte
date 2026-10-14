@@ -62,10 +62,10 @@
 				{ text: 'Animated album covers in the fullscreen player', issue: 537 },
 				{ text: 'A background gradient taken from the album art', issue: 47 },
 				{ text: 'A glow behind the album art that pulses with the music', issue: 325 },
-				{ text: 'Use the system fullscreen mode, as a setting', issue: 602 },
 				{ text: 'Fullscreen player with lyrics and the queue', done: '0.15' },
 				{ text: 'System tray and spectrum visualizer', done: '0.30' },
-				{ text: 'Custom themes as JSON files', done: '0.41' }
+				{ text: 'Custom themes as JSON files', done: '0.41' },
+				{ text: 'Use the system fullscreen mode, as a setting', issue: 602, done: '0.42.2' }
 			]
 		},
 		{

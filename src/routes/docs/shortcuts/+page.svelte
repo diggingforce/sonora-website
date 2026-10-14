@@ -1,4 +1,6 @@
 <script lang="ts">
+	import MenuPath from '$lib/components/docs/MenuPath.svelte';
+
 	/** One row of a shortcut table. `keys` are shown as separate key caps and read left to right. */
 	type Shortcut = { keys: string[]; action: string };
 
@@ -18,6 +20,13 @@
 		{ keys: ['Alt', '→'], action: 'Go forward' },
 		{ keys: ['Esc'], action: 'Close the open sheet or menu' },
 		{ keys: ['Ctrl', 'Q'], action: 'Quit' }
+	];
+
+	const display: Shortcut[] = [
+		{ keys: ['F11'], action: 'Make the window fill the screen, or go back' },
+		{ keys: ['Ctrl', '+'], action: 'Make the text bigger' },
+		{ keys: ['Ctrl', '-'], action: 'Make the text smaller' },
+		{ keys: ['Ctrl', '0'], action: 'Put the text back to its default size' }
 	];
 
 	const lists: Shortcut[] = [
@@ -43,6 +52,7 @@
 	const sections = [
 		{ id: 'playback', title: 'Playback', rows: playback },
 		{ id: 'navigation', title: 'Navigation', rows: navigation },
+		{ id: 'window', title: 'Window and text size', rows: display },
 		{ id: 'lists', title: 'Lists and tables', rows: lists },
 		{ id: 'macos', title: 'macOS window', rows: macos }
 	];
@@ -54,8 +64,8 @@
 
 <h1>Shortcuts</h1>
 <p class="summary">
-	On macOS the navigation shortcuts take <kbd>⌘</kbd> as well as <kbd>Ctrl</kbd>, and <kbd>Alt</kbd>
-	is <kbd>⌥</kbd>.
+	On macOS the navigation and text size shortcuts take <kbd>⌘</kbd> as well as <kbd>Ctrl</kbd>, and
+	<kbd>Alt</kbd> is <kbd>⌥</kbd>.
 </p>
 
 <p class="note">You can't rebind anything yet. Custom shortcuts are on the way.</p>
@@ -63,6 +73,12 @@
 	Playback shortcuts work while the app has focus and you aren't typing in a text field. In a text
 	field, <kbd>Space</kbd> types a space and <kbd>Ctrl</kbd> with the arrow keys moves through words. List
 	shortcuts act on the focused list or table.
+</p>
+<p>
+	Double-clicking the fullscreen player does the same as <kbd>F11</kbd>. To have every way into the
+	fullscreen player fill the screen, turn on
+	<MenuPath steps={['Settings', 'Appearance', 'Use OS fullscreen']} />. Text size you change from
+	the keyboard is saved like the one in settings.
 </p>
 
 {#each sections as section (section.id)}
