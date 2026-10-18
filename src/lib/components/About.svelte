@@ -9,6 +9,7 @@
 				{ glyph: 'spotify', text: 'Spotify' },
 				{ glyph: 'applemusic', text: 'Apple Music' },
 				{ glyph: 'youtubemusic', text: 'YouTube Music' },
+				{ glyph: 'deezer', text: 'Deezer' },
 				{ glyph: 'subsonic', text: 'Subsonic' },
 				{ glyph: 'file-music', text: 'Local files' }
 			]
