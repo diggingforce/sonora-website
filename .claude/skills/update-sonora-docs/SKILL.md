@@ -25,11 +25,11 @@ The checkpoint is `.sonora-docs-sync.json` at the website root. It belongs with 
 
 ```json
 {
-  "schema_version": 2,
-  "source_repository": "https://github.com/sonorahq/sonora",
-  "release_tag": "<verified published stable release tag>",
-  "source_commit": "<full verified release commit SHA>",
-  "updated_at": "<UTC ISO 8601 timestamp>"
+	"schema_version": 2,
+	"source_repository": "https://github.com/sonorahq/sonora",
+	"release_tag": "<verified published stable release tag>",
+	"source_commit": "<full verified release commit SHA>",
+	"updated_at": "<UTC ISO 8601 timestamp>"
 }
 ```
 
