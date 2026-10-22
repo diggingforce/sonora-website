@@ -10,6 +10,7 @@
 				{ glyph: 'applemusic', text: 'Apple Music' },
 				{ glyph: 'youtubemusic', text: 'YouTube Music' },
 				{ glyph: 'deezer', text: 'Deezer' },
+				{ glyph: 'tidal', text: 'Tidal' },
 				{ glyph: 'subsonic', text: 'Subsonic' },
 				{ glyph: 'file-music', text: 'Local files' }
 			]

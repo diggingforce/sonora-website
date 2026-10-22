@@ -69,7 +69,7 @@
 		'listenbrainz',
 		'maloja'
 	]);
-	const solid = new Set(['spotify', 'youtubemusic', 'applemusic', 'deezer']);
+	const solid = new Set(['spotify', 'youtubemusic', 'applemusic', 'deezer', 'tidal']);
 	const markup = $derived(extra.get(name) ?? icons.get(name) ?? '');
 </script>
 
