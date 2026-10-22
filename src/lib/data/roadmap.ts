@@ -17,7 +17,7 @@ export const areas: Area[] = [
 		id: 'playback',
 		title: 'Playback',
 		entries: [
-			{ text: 'A quality setting where the provider offers more than one stream' },
+			{ text: 'A quality setting where the provider offers more than one stream', pull: 1004 },
 			{ text: 'SponsorBlock for YouTube Music', issue: 431 }
 		]
 	},
@@ -25,7 +25,7 @@ export const areas: Area[] = [
 		id: 'lyrics',
 		title: 'Lyrics',
 		entries: [
-			{ text: 'Choose the order lyrics providers are tried in', issue: 498 },
+			{ text: 'Choose the order lyrics providers are tried in', pull: 973 },
 			{ text: 'Unison as a lyrics provider', issue: 477 },
 			{ text: 'Glow and wave animation for lyrics', issue: 423 }
 		]

@@ -15,7 +15,7 @@
 		{ keys: ['Ctrl', 'F'], action: 'Filter the current view' },
 		{ keys: ['Ctrl', 'Shift', 'F'], action: 'Open search' },
 		{ keys: ['Ctrl', ','], action: 'Open settings' },
-		{ keys: ['Ctrl', 'R'], action: 'Refresh the library' },
+		{ keys: ['Ctrl', 'R'], action: 'Reload the current page' },
 		{ keys: ['Alt', '←'], action: 'Go back' },
 		{ keys: ['Alt', '→'], action: 'Go forward' },
 		{ keys: ['Esc'], action: 'Close the open sheet or menu' },
@@ -39,6 +39,12 @@
 		{ keys: ['Esc'], action: 'Clear the selection' }
 	];
 
+	const equalizer: Shortcut[] = [
+		{ keys: ['Ctrl', 'Z'], action: 'Undo' },
+		{ keys: ['Ctrl', 'Shift', 'Z'], action: 'Redo' },
+		{ keys: ['Ctrl', 'Y'], action: 'Redo' }
+	];
+
 	const macos: Shortcut[] = [
 		{ keys: ['⌘', 'W'], action: 'Close the window' },
 		{ keys: ['⌘', 'M'], action: 'Minimize' },
@@ -54,6 +60,7 @@
 		{ id: 'navigation', title: 'Navigation', rows: navigation },
 		{ id: 'window', title: 'Window and text size', rows: display },
 		{ id: 'lists', title: 'Lists and tables', rows: lists },
+		{ id: 'equalizer', title: 'Equalizer', rows: equalizer },
 		{ id: 'macos', title: 'macOS window', rows: macos }
 	];
 </script>
@@ -77,15 +84,16 @@
 <p>
 	Double-clicking the fullscreen player does the same as <kbd>F11</kbd>. To have every way into the
 	fullscreen player fill the screen, turn on
-	<MenuPath steps={['Settings', 'Appearance', 'Use OS fullscreen']} />. Text size you change from
-	the keyboard is saved like the one in settings.
+	<MenuPath steps={['Settings', 'Appearance', 'Now playing', 'Use OS fullscreen']} />. Text size you
+	change from the keyboard is saved like the one in settings.
 </p>
+<p>Equalizer shortcuts work only on the equalizer screen.</p>
 
 {#each sections as section (section.id)}
 	<h2 id={section.id}>{section.title}</h2>
 	<table>
 		<tbody>
-			{#each section.rows as row (row.action)}
+			{#each section.rows as row (row.keys.join('+'))}
 				<tr>
 					<td>
 						<span class="keys">

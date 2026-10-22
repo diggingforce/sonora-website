@@ -15,8 +15,8 @@
 
 <h2 id="location">Location</h2>
 <p>
-	<MenuPath steps={['Settings', 'About', 'Log file', 'Open log']} /> opens it in your default text editor.
-	Or find it yourself:
+	<MenuPath steps={['Settings', 'General', 'Log file', 'Open log']} /> opens it in your default text editor.
+	On Windows it opens in Notepad. Or find it yourself:
 </p>
 <table>
 	<tbody>

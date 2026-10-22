@@ -1,7 +1,7 @@
 {
 	"schema_version": 2,
 	"source_repository": "https://github.com/sonorahq/sonora",
-	"release_tag": "v0.43.0",
-	"source_commit": "7c662cd9066df674685ac75cb7ac55b135070331",
-	"updated_at": "2026-10-14T18:04:09.000Z"
+	"release_tag": "v0.44.1",
+	"source_commit": "b0f3bb6dec9a5ce5960890ec1572e9bbd05364bd",
+	"updated_at": "2026-10-22T15:33:03.000Z"
 }

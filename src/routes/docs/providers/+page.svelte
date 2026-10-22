@@ -1,6 +1,25 @@
 <script lang="ts">
 	import AppButton from '$lib/components/docs/AppButton.svelte';
 	import MenuPath from '$lib/components/docs/MenuPath.svelte';
+
+	/** The levels each service offers under Streaming quality, best first, as the app labels them. */
+	const qualities = [
+		{ provider: 'Spotify', levels: 'High: Vorbis 320 kbps. Normal: 160 kbps. Low: 96 kbps.' },
+		{
+			provider: 'YouTube Music',
+			levels: 'High: AAC up to 256 kbps with Premium. Normal: 128 kbps. Low: 48 kbps.'
+		},
+		{ provider: 'Apple Music', levels: 'High: AAC 256 kbps. Low: 64 kbps.' },
+		{
+			provider: 'Deezer',
+			levels: 'Lossless: FLAC 16-bit 44.1 kHz. High: MP3 320 kbps. Normal: MP3 128 kbps.'
+		},
+		{
+			provider: 'Tidal',
+			levels:
+				'Hi-res: FLAC up to 24-bit 192 kHz. Lossless: FLAC 16-bit 44.1 kHz. High: AAC 320 kbps. Low: AAC 96 kbps.'
+		}
+	];
 </script>
 
 <svelte:head>
@@ -30,6 +49,18 @@
 	<li>A region error means Spotify won't serve your account from where you're connecting.</li>
 </ul>
 
+<h3 id="spotify-connect">Spotify Connect and Jams</h3>
+<p>
+	Sonora appears as a device in Spotify's other apps, so you can control it from your phone. To turn
+	this off, use <MenuPath steps={['Settings', 'Playback', 'Show as a Spotify device']} />.
+</p>
+<p>
+	The devices button in the player bar switches playback to another Spotify device and back. It also
+	has <strong>Start a Jam</strong> and <strong>Join a Jam</strong>. To hide Sonora's Discord status
+	while Spotify Connect plays, turn on
+	<MenuPath steps={['Settings', 'Integrations', 'Discord', 'Hide during Spotify Connect']} />.
+</p>
+
 <h2 id="youtube">YouTube Music</h2>
 <p>
 	There are three ways to log in: a Google login window, pasting your cookies manually, or guest
@@ -47,15 +78,21 @@
 	Sign in through the Deezer window or paste your <code>arl</code> cookie.
 </p>
 
+<h2 id="tidal">Tidal</h2>
+<p>
+	Signing in opens <code>link.tidal.com</code> in your browser with a code. Approve it there.
+</p>
+
 <h2 id="subsonic">Subsonic and Navidrome</h2>
 <p>
 	Enter the server address, your user name and password. Leave out the scheme and Sonora assumes
 	<code>http://</code>, so type <code>https://</code> yourself if your server has TLS.
 </p>
+<p>Lyrics stored on the server, such as ones embedded in your files, are used too.</p>
 
 <h2 id="local-files">Local files</h2>
 <p>
-	Add folders under <MenuPath steps={['Settings', 'General', 'Music folders']} />. Sonora scans
+	Add folders under <MenuPath steps={['Settings', 'Providers', 'Music folders']} />. Sonora scans
 	them, subfolders and symlinks included. After the first read it only checks files whose size or
 	date changed, so later scans are quick. It doesn't watch the folders while it runs, though. Hit <AppButton
 		>Rescan</AppButton
@@ -87,44 +124,47 @@
 
 <h3 id="local-lyrics">Local lyrics</h3>
 <p>
-	Enable <strong>Local</strong> under <MenuPath
-		steps={['Settings', 'Playback', 'Lyrics providers']}
-	/>
-	to use lyrics from a track's tags or a matching <code>.lrc</code> file. Turn on
-	<strong>Prefer local lyrics</strong> to use them before asking online services. Otherwise, Sonora compares
-	them with the online results and picks the best match.
+	Enable <strong>Local</strong> under <MenuPath steps={['Settings', 'Lyrics', 'Lyrics sources']} /> to
+	use lyrics from a track's tags or a matching <code>.lrc</code> file. Drag the sources to rank them.
+	Word-by-word lyrics come first, then line-synced, then plain text. Within each kind, the higher source
+	wins.
 </p>
 <p>
 	To keep your local track metadata off online lyrics services, turn off
-	<strong>Lyrics for local files</strong> in Privacy settings. Lyrics from your files still work.
+	<MenuPath steps={['Settings', 'Lyrics', 'Look up lyrics for local files']} />. Lyrics from your
+	files still work.
 </p>
 
 <h2 id="quality">Audio quality</h2>
+<p>
+	Pick a level in <MenuPath steps={['Settings', 'Playback', 'Streaming quality']} />. If your plan
+	or the track doesn't have it, the next level down plays.
+</p>
 <table>
 	<thead>
-		<tr><th>Provider</th><th>What you get</th></tr>
+		<tr><th>Provider</th><th>Levels</th></tr>
 	</thead>
 	<tbody>
-		<tr><td>Spotify</td><td>320 kbps, always</td></tr>
-		<tr><td>YouTube Music</td><td>Varies by track and the available stream</td></tr>
-		<tr><td>Apple Music</td><td>AAC at 256 kbps</td></tr>
-		<tr><td>Deezer</td><td>FLAC, 320 kbps MP3 or 128 kbps MP3, whichever your plan allows</td></tr>
-		<tr><td>Subsonic and Navidrome</td><td>Whatever your server sends by default</td></tr>
+		{#each qualities as row (row.provider)}
+			<tr><td>{row.provider}</td><td>{row.levels}</td></tr>
+		{/each}
 		<tr><td>Local files</td><td>The file as it is</td></tr>
 	</tbody>
 </table>
 <p>
-	You can't choose a specific quality yet. Sonora selects the stream automatically. Signing in to
-	YouTube Music unlocks your library, but does not guarantee a higher bitrate.
+	For Subsonic and Navidrome, set <strong>Stream format</strong> to MP3, Opus or AAC and a
+	<strong>Maximum bitrate</strong> to have the server convert tracks. To keep music for offline use,
+	see
+	<a href="/docs/downloads">Downloads and offline</a>.
 </p>
 
 <h2 id="widevine">Widevine</h2>
 <p>
-	Apple Music streams are encrypted, and decrypting them needs Google's Widevine module. If you have
-	Chrome, Edge, Brave, Vivaldi, Chromium, Opera or Firefox, it borrows their copy.
+	Apple Music streams are encrypted and need Google's Widevine module. A copy downloaded from Google
+	is used first, then one from a browser such as Chrome, Edge, Brave, Vivaldi, Chromium or Firefox.
 </p>
 <p>
-	If you don't, the app will offer to download one from Google once you've accepted their terms. If
-	it doesn't, go to <MenuPath steps={['Settings', 'Playback', 'Widevine module']} /> and download it manually.
-	Widevine only exists for x86_64 and arm64.
+	To download Google's copy, use <MenuPath steps={['Settings', 'Playback', 'Widevine module']} />.
+	Do this if no browser has the module or if Apple Music tracks fail because the browser's copy is
+	out of date. Widevine only exists for x86_64 and arm64.
 </p>

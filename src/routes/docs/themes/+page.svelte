@@ -1,9 +1,10 @@
 <script lang="ts">
 	import MenuPath from '$lib/components/docs/MenuPath.svelte';
 	import Code from '$lib/components/docs/Code.svelte';
+	import { repo } from '$lib/data/links';
 
 	const example = `{
-  "name": "Nord",
+  "name": "Fjord",
   "author": "Your Name",
   "version": 1,
   "theme": {
@@ -24,12 +25,17 @@
   }
 }`;
 
+	const variants = `themes/
+  fjord/
+    night.json    "name": "Fjord Night"
+    day.json      "name": "Fjord Day"`;
+
 	const overrides = `"appearance": {
-  "theme": "dark",
+  "theme": "catppuccin/mocha",
   "theme_overrides": {
     "primary": "#f5a97f",
-    "primary_foreground": "#2e3440",
-    "progress_bar": "#88c0d0"
+    "primary_foreground": "#1e1e2e",
+    "progress_bar": "#f5a97f"
   }
 }`;
 
@@ -84,20 +90,28 @@
 </script>
 
 <svelte:head>
-	<title>Custom themes · Sonora docs</title>
+	<title>Themes · Sonora docs</title>
 </svelte:head>
 
-<h1>Custom themes</h1>
+<h1>Themes</h1>
 <p class="summary">
-	A theme is one JSON file in the themes folder. Themes support hot reloading, and Sonora reflects
-	the changes on each save.
+	A theme is a JSON file in the themes folder. Changes to the file apply as soon as you save it.
+</p>
+
+<h2 id="choosing">Choosing a theme</h2>
+<p>
+	Pick a theme in <MenuPath steps={['Settings', 'Appearance', 'Theme']} />. For a theme with
+	variants, such as Catppuccin, click its name to pick a variant. In settings.json, set
+	<code>appearance.theme</code> to the theme's id.
+</p>
+<p class="note">
+	With <strong>Adaptive theme</strong> on, only System, Dark and Light are available. It is off by default.
 </p>
 
 <h2 id="folder">The themes folder</h2>
 <p>
-	<MenuPath steps={['Settings', 'Appearance', 'Theme', 'Open folder']} /> opens it. It is located next
-	to the
-	<a href="/docs/settings">settings file</a>.
+	Open it with <MenuPath steps={['Settings', 'Appearance', 'Theme', 'Open folder']} />. It is next
+	to the <a href="/docs/settings">settings file</a>.
 </p>
 <table>
 	<tbody>
@@ -113,26 +127,42 @@
 
 <h2 id="format">Writing a theme</h2>
 <p>
-	The file name becomes the theme's id, so <code>nord.json</code> is <code>nord</code>. Built-in
-	names like <code>dark</code>, <code>light</code> and <code>midnight</code> are taken.
+	The id is the file's path in the themes folder without <code>.json</code>:
+	<code>fjord.json</code> is <code>fjord</code>, <code>catppuccin/mocha.json</code> is
+	<code>catppuccin/mocha</code>. The ids <code>system</code>, <code>dark</code> and
+	<code>light</code> are reserved.
 </p>
 <p>
-	The file needs four keys to be a valid theme: <code>name</code>, <code>author</code>,
-	<code>version</code> and <code>theme</code>. The version must be <code>1</code> and is only there for
-	future compatibility. If this changes, the current correct value will be reflected here.
+	A theme file has four keys: <code>name</code>, <code>author</code>, <code>version</code> and
+	<code>theme</code>. The version must be <code>1</code>.
 </p>
-<Code label="themes/nord.json" lang="json" text={example} />
+<Code label="themes/fjord.json" lang="json" text={example} />
 <p>
 	Colors are hex, <code>RRGGBB</code> or <code>RRGGBBAA</code>, with or without the <code>#</code>.
-	Unset values currently default to a dark theme. Do not rely on this behavior. It may change in the
-	future.
+	Tokens you leave out use the Dark theme's colors.
+</p>
+<p>
+	An unknown key or an invalid color makes the file invalid. If an edit breaks a theme that was
+	already loaded, its last valid version stays in use and the error goes to the
+	<a href="/docs/logs">log</a>.
 </p>
 
+<h2 id="variants">Variants</h2>
 <p>
-	Save as UTF-8; a UTF-8 byte order mark is accepted since v0.42.0. Only the four top-level keys and
-	the color tokens below are allowed. An unknown key or invalid color rejects the file. If a
-	previously loaded theme is edited into an invalid file, Sonora keeps its last valid version and
-	reports the error in the <a href="/docs/logs">log</a>.
+	Files in a subfolder of the themes folder form one theme with a variant per file. Only one level
+	of subfolders is read, and symlinks are skipped.
+</p>
+<Code label="Folder layout" text={variants} />
+<p>
+	The words all variant names start with become the theme's name, and the rest of each name becomes
+	the variant's. The layout above is a theme called Fjord with the variants Night and Day.
+</p>
+
+<h2 id="replacing">Changing a built-in theme</h2>
+<p>
+	A theme file with a built-in theme's id replaces it. Copy a file from
+	<a href="{repo}/tree/main/assets/themes"><code>assets/themes</code></a> in Sonora's repository,
+	for example to <code>themes/catppuccin/mocha.json</code>, and edit it.
 </p>
 
 <h2 id="tokens">Color tokens</h2>
@@ -152,20 +182,17 @@
 	</tbody>
 </table>
 
-<h2 id="using">Using it</h2>
+<h2 id="overrides">Changing a single color</h2>
 <p>
-	Your themes show up at the bottom of the theme picker below the built-in themes. Setting <code
-		>appearance.theme</code
-	> to the id in settings.json works too.
-</p>
-<p class="note">
-	Having <strong>Adaptive theme</strong> on prevents using any custom themes. Adaptive colors are
-	also forced in fullscreen unless <strong>Ambient background</strong> is off.
-</p>
-
-<h2 id="overrides">Tweaking a built-in theme</h2>
-<p>
-	Only want to change a color or two? Skip the file and add <code>theme_overrides</code> to the appearance
-	block in settings.json. It works on any theme, built-in ones included, and beats the adaptive tint.
+	To change a color or two, add <code>theme_overrides</code> to the appearance block in settings.json
+	instead of writing a file. Overrides apply on top of any theme, including the adaptive tint.
 </p>
 <Code label="settings.json" lang="json" text={overrides} />
+
+<h2 id="legacy">Legacy themes</h2>
+<p>
+	Midnight, Forest, Ocean, Rose, Lavender and Amber are no longer built in since v0.44.0. If one of
+	them was selected when you updated, it was copied to your themes folder and is still selected. The
+	others are in <a href="{repo}/tree/main/themes/legacy"><code>themes/legacy</code></a> in Sonora's repository.
+	Copy a file into your themes folder to use it.
+</p>

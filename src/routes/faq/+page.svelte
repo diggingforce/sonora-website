@@ -154,30 +154,34 @@
 						offers to download it from Google. If you dismissed that or it never showed up, get it
 						from <MenuPath steps={['Settings', 'Playback', 'Widevine module']} />.
 					</p>
+					<p>
+						If tracks fail because your browser's copy is out of date, download Google's copy in the
+						same place.
+					</p>
 				</Question>
 
-				<Question id="skipping" question="Why did playback stop after a few tracks?">
+				<Question
+					id="apple-music-offline"
+					question="Why won't my Apple Music downloads play offline?"
+				>
 					<p>
-						When three tracks in a row fail, Sonora stops instead of burning through your whole
-						queue. The log has the reason.
+						Apple Music downloads need an internet connection to play. Downloads from other services
+						play offline. See <a href="/docs/downloads">Downloads and offline</a>.
 					</p>
 				</Question>
 			</div>
 
-			<h2>Settings and themes</h2>
+			<h2>Settings</h2>
 			<div class="questions">
-				<Question id="theme-grayed-out" question="Why is my custom theme grayed out?">
-					<p>
-						Turn off <strong>Adaptive theme</strong>. While it's on, you can only pick System, Dark
-						and Light. See <a href="/docs/themes">Custom themes</a>.
-					</p>
-				</Question>
-
 				<Question id="settings-not-saved" question="Why don't my settings changes stick?">
 					<p>
 						You probably broke the formatting of settings.json. Sonora shows
 						<strong>Fix line N of settings.json to save changes</strong> and won't save anything
 						until you fix it. See <a href="/docs/settings">Settings file</a>.
+					</p>
+					<p>
+						If your settings are lost, the previous version is in <code>sonora.backup.json</code> next
+						to settings.json.
 					</p>
 				</Question>
 			</div>

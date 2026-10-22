@@ -9,7 +9,7 @@
   "local_folders": ["/home/me/Music"],
   "lyrics_providers": ["Local", "Spotify", "LrcLib"],
   "appearance": {
-    "theme": "midnight",
+    "theme": "catppuccin/mocha",
     "adaptive_theme": false,
     "icons": "lucide",
     "rounding": "rounded",
@@ -24,7 +24,7 @@
     settings = {
       gapless = true;
       appearance = {
-        theme = "midnight";
+        theme = "catppuccin/mocha";
         adaptive_theme = false;
       };
     };
@@ -74,6 +74,13 @@
 	Save as UTF-8. Since v0.42.0, a UTF-8 byte order mark, which some Windows editors add, is accepted
 	too.
 </p>
+
+<h2 id="backup">Backup</h2>
+<p>
+	The previous valid version of your settings is in <code>sonora.backup.json</code> next to settings.json.
+	To restore it, quit Sonora and copy it over settings.json.
+</p>
+
 <h2 id="not-here">What isn't in the file</h2>
 <p>
 	The selected provider, volume, queue resume position, window layout and other runtime state are
@@ -91,15 +98,16 @@
 		<tr>
 			<td>Data</td>
 			<td>
-				<code>state.sqlite</code>, in <code>~/.local/share/sonora</code>,
+				<code>state.sqlite</code> and <a href="/docs/downloads">downloads</a>, in
+				<code>~/.local/share/sonora</code>,
 				<code>~/Library/Application Support/sonora</code> or <code>%LOCALAPPDATA%\sonora</code>.
 			</td>
 		</tr>
 		<tr>
 			<td>Cache</td>
 			<td>
-				Sign-in credentials, the Widevine module, cached lyrics and artwork, and the local scan
-				index, in
+				Sign-in credentials, the Widevine module, cached lyrics, artwork and played tracks, and the
+				local scan index, in
 				<code>~/.cache/sonora</code>, <code>~/Library/Caches/sonora</code> or
 				<code>%LOCALAPPDATA%\sonora</code>. Removing provider credential files signs you out of
 				those providers.
@@ -110,7 +118,7 @@
 
 <p class="note">
 	On Windows, data and cache share the same folder. Deleting the whole folder also removes
-	<code>state.sqlite</code>, including local playlists and favorites.
+	<code>state.sqlite</code>, including local playlists and favorites, and every song you downloaded.
 </p>
 
 <h2 id="home-manager">Home Manager</h2>

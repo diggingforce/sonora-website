@@ -23,6 +23,17 @@ export const groups: { label: string; pages: DocPage[] }[] = [
 					'How signing in works for each service, their quirks, and the audio quality you get.'
 			},
 			{
+				slug: 'downloads',
+				title: 'Downloads and offline',
+				summary:
+					'Saving songs to play without a connection, offline mode, and the played-track cache.'
+			},
+			{
+				slug: 'sound',
+				title: 'Sound',
+				summary: 'Output device, sample rate and buffer, and the parametric equalizer.'
+			},
+			{
 				slug: 'shortcuts',
 				title: 'Shortcuts',
 				summary: 'Every keyboard shortcut, including the ones that only exist on macOS.'
@@ -44,8 +55,8 @@ export const groups: { label: string; pages: DocPage[] }[] = [
 			},
 			{
 				slug: 'themes',
-				title: 'Custom themes',
-				summary: 'Writing your own color theme as a JSON file.'
+				title: 'Themes',
+				summary: 'The themes Sonora ships, and writing your own as a JSON file.'
 			}
 		]
 	},
