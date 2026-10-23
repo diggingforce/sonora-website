@@ -44,7 +44,11 @@ export const areas: Area[] = [
 		entries: [
 			{ text: 'Animated album covers in the fullscreen player', issue: 537 },
 			{ text: 'A background gradient taken from the album art', issue: 47 },
-			{ text: 'A glow behind the album art that pulses with the music', issue: 325 }
+			{ text: 'A glow behind the album art that pulses with the music', issue: 325 },
+			{
+				text: 'Floating mini player windows with lyrics and controls that stay on top of other apps',
+				issue: 1065
+			}
 		]
 	},
 	{
