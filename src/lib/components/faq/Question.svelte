@@ -5,6 +5,7 @@
 
 <script lang="ts">
 	import { getContext, onMount, type Snippet } from 'svelte';
+	import { replaceState } from '$app/navigation';
 	import { cubicInOut } from 'svelte/easing';
 	import { slide, type SlideParams } from 'svelte/transition';
 
@@ -22,6 +23,14 @@
 		return { ...base, css: (t: number, u: number) => `${base.css?.(t, u) ?? ''}; opacity: ${t}` };
 	}
 
+	/** Opens this question and puts its anchor in the address bar, skipping the scroll the site-wide anchor handler would add. */
+	function link(event: MouseEvent) {
+		if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+		event.preventDefault();
+		accordion.open = id;
+		replaceState(`#${id}`, {});
+	}
+
 	onMount(() => {
 		if (matchMedia('(prefers-reduced-motion: reduce)').matches) duration = 0;
 	});
@@ -36,6 +45,7 @@
 	>
 		<span class="label">{question}</span>
 	</button>
+	<a class="anchor" href="#{id}" aria-label="Link to this question" onclick={link}>#</a>
 
 	{#if open}
 		<div class="panel" id="{id}-answer" transition:unfold={{ duration, easing: cubicInOut }}>
@@ -55,6 +65,7 @@
 
 <style>
 	.question {
+		position: relative;
 		border-bottom: 1px solid var(--line);
 		scroll-margin-top: calc(var(--header) + 24px);
 	}
@@ -69,7 +80,7 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 16px;
-		padding: 16px 18px;
+		padding: 16px 64px 16px 18px;
 		font-size: 15px;
 		font-weight: 500;
 		text-align: left;
@@ -95,6 +106,35 @@
 
 	button[aria-expanded='true']::after {
 		transform: translateY(2px) rotate(-135deg);
+	}
+
+	.anchor {
+		position: absolute;
+		top: 14px;
+		right: 36px;
+		padding: 0 6px;
+		border-radius: 4px;
+		color: var(--dim);
+		font-size: 15px;
+		line-height: 22px;
+		text-decoration: none;
+		opacity: 0;
+		transition: opacity 0.15s ease;
+	}
+
+	.question:hover .anchor,
+	.anchor:focus-visible {
+		opacity: 1;
+	}
+
+	.anchor:hover {
+		color: inherit;
+	}
+
+	@media (hover: none) {
+		.anchor {
+			opacity: 0.6;
+		}
 	}
 
 	.answer {
