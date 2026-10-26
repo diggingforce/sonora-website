@@ -4,6 +4,9 @@ export const installer =
 export const installerArm =
 	'https://github.com/sonorahq/sonora/releases/latest/download/Sonora-Setup-arm64.exe';
 
+/** Assets of the nightly prerelease, which keep their names from one night to the next. */
+const nightly = 'https://github.com/sonorahq/sonora/releases/download/nightly';
+
 export type Step = { caption: string; command: string; link?: string; hint?: string };
 
 export const platforms: {
@@ -31,6 +34,12 @@ export const platforms: {
 				caption: 'Clear the quarantine flag',
 				command: 'xattr -dr com.apple.quarantine /Applications/Sonora.app',
 				hint: 'The app is not signed yet, so macOS quarantines it on the first install.'
+			},
+			{
+				caption: 'Or try the nightly build of main',
+				link: `${nightly}/sonora-nightly-macos.dmg`,
+				command: 'sonora-nightly-macos.dmg',
+				hint: 'Rebuilt every night and untested, so expect rough edges.'
 			}
 		],
 		note: 'The app is not signed with an Apple developer certificate yet. Clear the quarantine flag after installing, and again if macOS blocks it after an update.'
@@ -47,6 +56,11 @@ export const platforms: {
 				caption: 'Add the ALSA plugin for your sound server',
 				command: 'pacman -S pipewire-alsa',
 				hint: 'On PulseAudio install pulseaudio-alsa instead.'
+			},
+			{
+				caption: 'Or try the nightly build of main',
+				command: 'yay -S sonora-nightly-bin',
+				hint: 'Rebuilt every night and untested, so expect rough edges.'
 			}
 		],
 		note: 'sonora-bin ships the prebuilt release. The sonora package builds the same version from source against your own system libraries, which takes a while.'
@@ -85,6 +99,11 @@ export const platforms: {
     };
   };
 }`
+			},
+			{
+				caption: 'Or try the nightly build of main',
+				command: 'nix run github:sonorahq/sonora/nightly',
+				hint: 'Point the flake input at the same ref to keep it.'
 			}
 		],
 		note: 'The flake packages the latest tagged release and exposes programs.sonora for Home Manager.'
@@ -112,6 +131,12 @@ export const platforms: {
 				link: 'https://github.com/sonorahq/sonora/releases/latest',
 				command: 'sonora-<version>-x86_64-pc-windows-msvc.exe',
 				hint: 'Pick the file for your architecture on the releases page and run it as-is.'
+			},
+			{
+				caption: 'Or try the nightly build of main',
+				link: `${nightly}/Sonora-Setup.exe`,
+				command: 'nightly/Sonora-Setup.exe',
+				hint: 'Rebuilt every night and untested, so expect rough edges.'
 			}
 		],
 		note: 'A winget package is coming soon. For now, download the installer.'

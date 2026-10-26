@@ -100,6 +100,22 @@
 						Check that it's connected and that no other app holds it.
 					</p>
 				</Question>
+
+				<Question id="nightly" question="Can I try changes before the next release?">
+					<p>
+						Yes. Every night <code>main</code> is built into the
+						<a href="https://github.com/sonorahq/sonora/releases/tag/nightly">nightly prerelease</a
+						>, with the same installers, AppImages and binaries as a release. On Arch, install
+						<code>sonora-nightly-bin</code>.
+					</p>
+					<Code text="yay -S sonora-nightly-bin" />
+					<p>With Nix, run the flake at its <code>nightly</code> tag.</p>
+					<Code text="nix run github:sonorahq/sonora/nightly" />
+					<p>
+						A nightly AppImage updates to the next nightly, not to a release. Nightlies skip the
+						testing a release gets, so say you're on one when you report a bug.
+					</p>
+				</Question>
 			</div>
 
 			<h2>Signing in</h2>
