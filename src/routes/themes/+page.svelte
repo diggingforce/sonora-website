@@ -1,8 +1,8 @@
 <script lang="ts">
 	import EditLink from '$lib/components/EditLink.svelte';
+	import Glyph from '$lib/components/Glyph.svelte';
 	import ThemeMiniature from '$lib/components/ThemeMiniature.svelte';
-	import { website } from '$lib/data/links';
-	import { themes } from '$lib/data/themes';
+	import { submit, themes } from '$lib/data/themes';
 </script>
 
 <svelte:head>
@@ -22,9 +22,8 @@
 			<span class="kicker">Themes</span>
 			<h1>Community themes</h1>
 			<p class="summary">
-				Install opens Sonora and shows you the theme before anything changes. If nothing happens,
-				your Sonora is older than theme links. Download the file instead and drop it into your
-				<a href="/docs/themes#folder">themes folder</a>.
+				Want to contribute? <a href="/docs/themes#format">Write a theme</a>, then
+				<a href={submit}>open a pull request</a> that adds it.
 			</p>
 		</header>
 
@@ -40,27 +39,23 @@
 							<span class="author">by {theme.author}</span>
 						</div>
 						<div class="actions">
-							<a class="btn btn-primary" href={theme.link}>Install</a>
+							<a class="btn btn-primary" href={theme.link}>
+								Install
+								<Glyph name="arrow-right" />
+							</a>
 							<a
 								class="btn btn-secondary"
 								href="data:application/json;charset=utf-8,{encodeURIComponent(theme.file)}"
-								download="{theme.id}.json">Download</a
+								download="{theme.id}.json"
 							>
+								Download
+								<Glyph name="arrow-down" />
+							</a>
 						</div>
 					</div>
 				</li>
 			{/each}
 		</ul>
-
-		<div class="share">
-			<h2>Share yours</h2>
-			<p>
-				<a href="/docs/themes#format">Write a theme file</a>, then open a pull request that adds it
-				to <a href="{website}/tree/main/src/lib/themes"><code>src/lib/themes</code></a> in the
-				website repository. Name the file after the theme in lowercase with hyphens, such as
-				<code>night-owl.json</code>.
-			</p>
-		</div>
 
 		<div class="source">
 			<EditLink path="src/routes/themes/+page.svelte" />
@@ -92,8 +87,7 @@
 		color: var(--muted-fg);
 	}
 
-	.summary a,
-	.share a {
+	.summary a {
 		color: var(--fg);
 		text-decoration: underline;
 		text-decoration-color: var(--faint);
@@ -167,28 +161,6 @@
 		height: 34px;
 		padding: 0 14px;
 		font-size: 13px;
-	}
-
-	.share {
-		max-width: 640px;
-		margin-top: 56px;
-	}
-
-	.share h2 {
-		font-size: 20px;
-		margin-bottom: 10px;
-	}
-
-	.share p {
-		font-size: 14.5px;
-		line-height: 1.6;
-		color: var(--muted-fg);
-	}
-
-	code {
-		font-family: var(--mono);
-		font-size: 0.92em;
-		white-space: nowrap;
 	}
 
 	.source {

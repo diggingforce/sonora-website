@@ -44,6 +44,8 @@
 			'sliders-vertical',
 			'<path d="M5 21v-7"/><path d="M5 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M19 21v-5"/><path d="M19 12V3"/><path d="M3 14h4"/><path d="M10 8h4"/><path d="M17 16h4"/>'
 		],
+		['arrow-right', '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>'],
+		['arrow-down', '<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>'],
 		['terminal', '<path d="m4 17 6-6-6-6"/><path d="M12 19h8"/>'],
 		['circle-plus', '<circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/>'],
 		['circle-minus', '<circle cx="12" cy="12" r="10"/><path d="M8 12h8"/>'],

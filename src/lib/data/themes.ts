@@ -1,3 +1,4 @@
+import { website } from '$lib/data/links';
 import { FIELDS, darkColors } from '$lib/mock/theme';
 
 /** A community theme as the gallery shows it, with the link that hands it to Sonora. */
@@ -30,6 +31,26 @@ const files = import.meta.glob('../themes/*.json', {
 	query: '?raw',
 	import: 'default'
 }) as Record<string, string>;
+
+/** The file a new theme starts from. Every color it leaves out comes from the Dark theme. */
+const STARTER = `{
+	"name": "My theme",
+	"author": "Your name",
+	"version": 1,
+	"theme": {
+		"background": "#101014",
+		"foreground": "#fafafa",
+		"primary": "#a5b4fc",
+		"primary_foreground": "#101014"
+	}
+}
+`;
+
+/**
+ * Opens GitHub's editor on a new file in `src/lib/themes`. Committing it forks the repository
+ * and opens a pull request that starts from the theme template.
+ */
+export const submit = `${website}/new/main/src/lib/themes?filename=my-theme.json&value=${encodeURIComponent(STARTER)}`;
 
 /** Every theme in `src/lib/themes`, sorted by name. A file Sonora would refuse fails the build. */
 export const themes: CommunityTheme[] = Object.entries(files)
