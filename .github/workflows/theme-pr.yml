@@ -1,0 +1,123 @@
+name: Theme pull request
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize, ready_for_review]
+
+concurrency:
+  group: theme-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+# Turning a pull request back into a draft needs contents: write as well as pull-requests: write.
+# Nothing from the pull request is checked out or run, so the write token never meets its code.
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  check:
+    if: ${{ github.repository == 'sonorahq/website' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            const MARKER = '<!-- sonora-theme-template:v1 -->';
+            const NOTE = '<!-- sonora-theme-check -->';
+            const FOLDER = 'src/lib/themes/';
+            const pr = context.payload.pull_request;
+            const { owner, repo } = context.repo;
+            const body = (pr.body ?? '').replace(/\r\n/g, '\n');
+
+            // Maintainers change themes alongside the site, so only outside contributions are held to the template.
+            if (['OWNER', 'MEMBER', 'COLLABORATOR'].includes(pr.author_association)) return;
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner,
+              repo,
+              pull_number: pr.number,
+              per_page: 100
+            });
+            const themed = files.some((file) => file.filename.startsWith(FOLDER));
+            if (!themed && !body.includes(MARKER)) return;
+
+            const problems = [];
+            if (!body.includes(MARKER)) {
+              problems.push('The description does not use the theme template. Open a new pull request so GitHub fills it in, or paste `.github/pull_request_template.md` from this repository.');
+            }
+            const outside = files.filter((file) => !file.filename.startsWith(FOLDER));
+            if (outside.length) {
+              problems.push(`Only files in \`${FOLDER}\` may change. This pull request also changes ${outside.map((file) => `\`${file.filename}\``).join(', ')}.`);
+            }
+            const themes = files.filter((file) => file.filename.startsWith(FOLDER));
+            if (themes.length !== 1) {
+              problems.push(`A pull request adds or changes exactly one theme file. This one changes ${themes.length}.`);
+            }
+            for (const file of themes) {
+              if (!/^src\/lib\/themes\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/.test(file.filename)) {
+                problems.push(`\`${file.filename}\` must be a \`.json\` file named in lowercase with hyphens, directly in \`${FOLDER}\`.`);
+              }
+            }
+
+            const section = (title) => {
+              const start = body.search(new RegExp(`^## ${title}\\s*$`, 'm'));
+              if (start < 0) return null;
+              const rest = body.slice(start).split('\n').slice(1).join('\n');
+              const end = rest.search(/^## /m);
+              return end < 0 ? rest : rest.slice(0, end);
+            };
+            const boxes = (text) =>
+              [...(text ?? '').replace(/<!--[\s\S]*?-->/g, '').matchAll(/^\s*[-*] \[( |x|X)\] (.*)$/gm)].map(
+                (match) => ({ checked: match[1] !== ' ', label: match[2].trim() })
+              );
+
+            if (body.includes(MARKER)) {
+              const kind = boxes(section('Theme'));
+              if (kind.filter((box) => box.checked).length !== 1) {
+                problems.push('Under **Theme**, check exactly one of "Adds a new theme" and "Updates an existing theme".');
+              }
+              const checklist = boxes(section('Checklist'));
+              if (!checklist.length) problems.push('The **Checklist** section is missing.');
+              for (const box of checklist.filter((box) => !box.checked)) {
+                problems.push(`Under **Checklist**, this is not checked: ${box.label}`);
+              }
+            }
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number: pr.number,
+              per_page: 100
+            });
+            const previous = comments.find(
+              (comment) => comment.user?.type === 'Bot' && comment.body?.includes(NOTE)
+            );
+
+            if (!problems.length) {
+              if (previous) await github.rest.issues.deleteComment({ owner, repo, comment_id: previous.id });
+              return;
+            }
+            if (pr.draft) {
+              core.info(`Draft pull request, not enforced yet:\n${problems.join('\n')}`);
+              return;
+            }
+
+            await github.graphql(
+              'mutation($id: ID!) { convertPullRequestToDraft(input: { pullRequestId: $id }) { clientMutationId } }',
+              { id: pr.node_id }
+            );
+            const text = [
+              NOTE,
+              'This pull request is back to a draft because the theme checklist is not complete yet:',
+              '',
+              ...problems.map((problem) => `- ${problem}`),
+              '',
+              'Fix these, then mark it ready for review again.'
+            ].join('\n');
+            if (previous) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: previous.id, body: text });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number: pr.number, body: text });
+            }
+            core.setFailed(problems.join('\n'));
