@@ -24,6 +24,7 @@
 		{ href: `${home}#about`, label: 'What it does' },
 		{ href: `${home}#community`, label: 'Community' },
 		{ href: '/docs', label: 'Docs' },
+		{ href: '/themes', label: 'Themes' },
 		{ href: '/faq', label: 'FAQ' },
 		{ href: '/changelog', label: 'Changelog' }
 	]);

@@ -5,7 +5,8 @@ const MAX_WASH_SATURATION = 0.7;
 const MIN_ACCENT_SATURATION = 0.6;
 const MAX_ACCENT_SATURATION = 0.85;
 
-const FIELDS = [
+/** Every colour token a Sonora theme sets, in the order the palettes below list them. */
+export const FIELDS = [
 	'background',
 	'foreground',
 	'border',
@@ -90,6 +91,11 @@ const kinds: Record<string, string> = {
 };
 
 export const themes = Object.keys(kinds);
+
+/** The Dark theme's colours by token, which a theme file's missing tokens fall back to in Sonora. */
+export const darkColors: Record<string, string> = Object.fromEntries(
+	palettes.dark.split(' ').map((color, at) => [FIELDS[at], `#${color}`])
+);
 
 export type Shade = [number, number, number, number];
 
